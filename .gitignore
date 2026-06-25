@@ -1,0 +1,6 @@
+# Временные файлы Excel/Office
+~$*
+
+# Системные файлы ОС
+.DS_Store
+Thumbs.db
