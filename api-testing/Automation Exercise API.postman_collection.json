@@ -1,0 +1,361 @@
+{
+  "info": {
+    "_postman_id": "1ff4c3f2-a4a4-45d8-a249-8bf9b184ac4b",
+    "name": "Automation Exercise API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49476266",
+    "_collection_link": "https://go.postman.co/collection/49476266-1ff4c3f2-a4a4-45d8-a249-8bf9b184ac4b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "POST Search Product - valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "search_product",
+                  "value": "dress",
+                  "type": "text",
+                  "uuid": "e2cbc065-19a7-4897-b009-741b7ce6f04c"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://automationexercise.com/api/searchProduct",
+              "protocol": "https",
+              "host": [
+                "automationexercise",
+                "com"
+              ],
+              "path": [
+                "api",
+                "searchProduct"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Search Product - missing param",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"HTTP-статус 200 [ИЗВЕСТНЫЙ ДЕФЕКТ: по стандарту должен быть 400]\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"В теле ответа responseCode 400\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.responseCode).to.eql(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Сообщение об отсутствии параметра\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.message).to.include(\"search_product parameter is missing\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "search_product",
+                  "value": "dress",
+                  "type": "text",
+                  "uuid": "e2cbc065-19a7-4897-b009-741b7ce6f04c",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://automationexercise.com/api/searchProduct",
+              "protocol": "https",
+              "host": [
+                "automationexercise",
+                "com"
+              ],
+              "path": [
+                "api",
+                "searchProduct"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Products List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Статус-код 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Тело ответа в формате JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Ответ содержит список товаров\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.products).to.exist;\r",
+                  "    pm.expect(jsonData.products.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Время ответа меньше 2 секунд\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://automationexercise.com/api/productsList",
+              "protocol": "https",
+              "host": [
+                "automationexercise",
+                "com"
+              ],
+              "path": [
+                "api",
+                "productsList"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST Verify Login - valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Статус-код 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"responseCode в теле равен 200\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.responseCode).to.eql(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Сообщение 'User exists!'\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.message).to.eql(\"User exists!\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "milka@mail.ru",
+                  "type": "text",
+                  "uuid": "a81deb68-3ca1-45b8-a3b0-dc1a48aa0106"
+                },
+                {
+                  "key": "password",
+                  "value": "12345",
+                  "type": "text",
+                  "uuid": "5a9cb8c9-fe0b-4483-8748-3a1c296e24cc"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://automationexercise.com/api/verifyLogin",
+              "protocol": "https",
+              "host": [
+                "automationexercise",
+                "com"
+              ],
+              "path": [
+                "api",
+                "verifyLogin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Verify Login - missing param",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"HTTP-статус 200 [ИЗВЕСТНЫЙ ДЕФЕКТ: по стандарту должен быть 400]\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"responseCode 400 при отсутствии параметра\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.responseCode).to.eql(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Сообщение об отсутствии параметра\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.message).to.include(\"parameter is missing\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "milka@mail.ru",
+                  "type": "text",
+                  "uuid": "3bdb65a8-e385-4c01-9225-b4fb4a16921d"
+                },
+                {
+                  "key": "password",
+                  "value": "12345",
+                  "type": "text",
+                  "uuid": "b351d5db-33ad-487f-959f-9f639f64c5c4",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://automationexercise.com/api/verifyLogin",
+              "protocol": "https",
+              "host": [
+                "automationexercise",
+                "com"
+              ],
+              "path": [
+                "api",
+                "verifyLogin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Verify Login - wrong data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"HTTP-статус 200 [ИЗВЕСТНЫЙ ДЕФЕКТ: по стандарту должен быть 404]\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"responseCode 404 при неверных данных\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.responseCode).to.eql(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Сообщение 'User not found!'\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.message).to.eql(\"User not found!\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "milka@mail.ru",
+                  "type": "text",
+                  "uuid": "3bdb65a8-e385-4c01-9225-b4fb4a16921d"
+                },
+                {
+                  "key": "password",
+                  "value": "1234",
+                  "type": "text",
+                  "uuid": "b351d5db-33ad-487f-959f-9f639f64c5c4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://automationexercise.com/api/verifyLogin",
+              "protocol": "https",
+              "host": [
+                "automationexercise",
+                "com"
+              ],
+              "path": [
+                "api",
+                "verifyLogin"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
