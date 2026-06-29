@@ -4,3 +4,8 @@
 # Системные файлы ОС
 .DS_Store
 Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
